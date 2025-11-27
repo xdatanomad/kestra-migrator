@@ -29,7 +29,8 @@ There's an example [`envs/kestra.tfvars`](envs/kestra.tfvars) file.
 To run the export script, use the following command:
 
 ```bash
-python export.py run --url http://localhost:8080 --username kestra --password kestra
+# you can omit the path in older versions of Kestra
+python export.py run --url http://localhost:8080 --username kestra --password kestra --tenant main
 
 # for additional parameters, run:
 python export.py run --help
