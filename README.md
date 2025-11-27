@@ -57,11 +57,13 @@ namespaces = [
 ...
 ```
 
-## Import into Terraform
+## Export from Kestra into Terraform State
 
 To import the exported resources into your new Kestra instance using Terraform, follow these steps:
 
 ```bash
+terraform init
+
 # run the import script
 ./import.sh
 
@@ -73,4 +75,16 @@ terraform import -var-file=kestra.tfvars 'kestra_namespace.namespaces["company"]
 terraform import -var-file=kestra.tfvars 'kestra_flow.flows["company.team|flow-log"]' company.team/flow-log
 ```
 
-## Note
+## Import from Terraform State into Kestra
+
+First, edit the `kestra.tfvars` file to point to your new Kestra instance by updating the `kestra_base_url`, `kestra_username`, and `kestra_password` values.
+
+To apply the imported resources to your new Kestra instance, use the following Terraform commands:
+
+```bash
+terraform init
+terraform plan -var-file=kestra.tfvars
+terraform apply -var-file=kestra.tfvars
+```
+
+## Notes
