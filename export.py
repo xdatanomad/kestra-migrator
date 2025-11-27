@@ -492,8 +492,6 @@ def run(
     import_sh: StringIO = StringIO()
     typer.echo("Connection successful.\n")
     
-    # get namespaces
-    nss = ke.get_namespaces()
     # write kestra instance variables
     tfvars.writelines([
         f'kestra_base_url = "{base_url}"\n',
@@ -501,10 +499,11 @@ def run(
         f'kestra_password = "{password}"\n',
         "\n",
     ])
-
-    # namespaces
-    tfvars.write("namespaces = [\n")
     import_sh.write("#!/bin/bash\n\n")
+
+    # get namespaces
+    nss = ke.get_namespaces()
+    tfvars.write("namespaces = [\n")
     for ns in nss:
         tfvars.write(f'  "{ns.id}",\n')
         import_sh.write(f"terraform import -var-file=kestra.tfvars 'kestra_namespace.namespaces[\"{ns.id}\"]' {ns.id}\n")
